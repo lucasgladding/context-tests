@@ -8,7 +8,7 @@ interface LoginProps {
 }
 
 function Login({ api }: LoginProps) {
-  const { login, authenticated } = useAuth(api);
+  const { login, authenticated, error } = useAuth(api);
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -20,6 +20,12 @@ function Login({ api }: LoginProps) {
   if (authenticated) {
     return (
       <div>Authenticated</div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>{error.message}</div>
     );
   }
 
