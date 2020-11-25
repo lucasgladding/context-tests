@@ -14,7 +14,13 @@ export function useAuth(api: AuthAPI) {
     }
   }
 
-  const authenticated = state.token !== undefined;
+  function logout() {
+    dispatch({type: 'logout'});
+  }
 
-  return {login, authenticated};
+  const {token, error} = state;
+
+  const authenticated = token !== undefined;
+
+  return {login, logout, authenticated, error};
 }

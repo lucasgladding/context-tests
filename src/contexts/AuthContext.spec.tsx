@@ -33,4 +33,13 @@ describe('AuthContext', () => {
     expect(result.current.state.token).toEqual(undefined);
     expect(result.current.state.error).toEqual(error);
   });
+
+  it('handles logout', () => {
+    const {result} = renderHook(() => useAuthContext(), {wrapper});
+    act(() => {
+      result.current.dispatch({type: 'logout'});
+    });
+    expect(result.current.state.token).toEqual(undefined);
+    expect(result.current.state.error).toEqual(undefined);
+  });
 });

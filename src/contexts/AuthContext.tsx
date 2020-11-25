@@ -4,7 +4,7 @@ import React, {createContext, ReactNode, useContext, useReducer} from 'react';
 
 interface AuthState {
   token?: string;
-  error?: string;
+  error?: Error;
 }
 
 const AuthStateContext = createContext<AuthState | undefined>(undefined);
@@ -13,7 +13,8 @@ const AuthStateContext = createContext<AuthState | undefined>(undefined);
 
 type AuthAction =
   { type: 'login.success'; token: string; } |
-  { type: 'login.error'; error: string; }
+  { type: 'login.error'; error: Error; } |
+  { type: 'logout'; }
   ;
 
 type AuthDispatch = (action: AuthAction) => void;
@@ -36,11 +37,17 @@ function reduce(state: AuthState, action: AuthAction): AuthState {
         token: undefined,
         error: action.error,
       };
+    case 'logout':
+      return {
+        token: undefined,
+        error: undefined,
+      };
   }
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [state, dispatch] = useReducer(reduce, {});
+  const initialState = {token: undefined, error: undefined};
+  const [state, dispatch] = useReducer(reduce, initialState);
 
   return (
     <AuthStateContext.Provider value={state}>
