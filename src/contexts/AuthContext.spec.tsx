@@ -25,7 +25,7 @@ describe('AuthContext', () => {
   });
 
   it('handles login error', () => {
-    const error = 'Authentication failed';
+    const error = new Error('Authentication failed');
     const { result } = renderHook(() => { return useAuthContext(); }, { wrapper });
     act(() => {
       result.current.dispatch({ type: 'login.error', error });
