@@ -1,4 +1,6 @@
-import React, {createContext, ReactNode, useContext, useReducer} from 'react';
+import React, {
+  createContext, ReactNode, useContext, useReducer,
+} from 'react';
 
 // State
 
@@ -42,11 +44,13 @@ function reduce(state: AuthState, action: AuthAction): AuthState {
         token: undefined,
         error: undefined,
       };
+    default:
+      return state;
   }
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const initialState = {token: undefined, error: undefined};
+  const initialState = { token: undefined, error: undefined };
   const [state, dispatch] = useReducer(reduce, initialState);
 
   return (
@@ -75,5 +79,5 @@ export function useAuthDispatchContext() {
 }
 
 export function useAuthContext() {
-  return {state: useAuthStateContext(), dispatch: useAuthDispatchContext()};
+  return { state: useAuthStateContext(), dispatch: useAuthDispatchContext() };
 }

@@ -1,0 +1,12 @@
+{
+    "extends": ["airbnb-typescript"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "env": {
+        "jest": true
+    },
+    "rules": {
+        "arrow-body-style": ["error", "always"]
+    }
+}

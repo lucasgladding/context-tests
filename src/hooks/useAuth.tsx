@@ -1,6 +1,7 @@
 import AuthAPI from '../apis/AuthAPI';
-import {useAuthDispatchContext, useAuthStateContext} from '../contexts/AuthContext';
+import { useAuthDispatchContext, useAuthStateContext } from '../contexts/AuthContext';
 
+// eslint-disable-next-line import/prefer-default-export
 export function useAuth(api: AuthAPI) {
   const state = useAuthStateContext();
   const dispatch = useAuthDispatchContext();
@@ -8,19 +9,21 @@ export function useAuth(api: AuthAPI) {
   async function login() {
     try {
       const response = await api.login();
-      dispatch({type: 'login.success', token: response.token})
+      dispatch({ type: 'login.success', token: response.token });
     } catch (error) {
-      dispatch({type: 'login.error', error: error})
+      dispatch({ type: 'login.error', error });
     }
   }
 
   function logout() {
-    dispatch({type: 'logout'});
+    dispatch({ type: 'logout' });
   }
 
-  const {token, error} = state;
+  const { token, error } = state;
 
   const authenticated = token !== undefined;
 
-  return {login, logout, authenticated, error};
+  return {
+    login, logout, authenticated, error,
+  };
 }

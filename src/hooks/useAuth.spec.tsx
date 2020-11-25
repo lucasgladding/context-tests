@@ -1,8 +1,8 @@
-import React, {ReactNode} from 'react';
-import {act, renderHook} from '@testing-library/react-hooks';
+import React, { ReactNode } from 'react';
+import { act, renderHook } from '@testing-library/react-hooks';
 
-import {AuthProvider} from '../contexts/AuthContext';
-import {useAuth} from './useAuth';
+import { AuthProvider } from '../contexts/AuthContext';
+import { useAuth } from './useAuth';
 
 type WrapperProps = { children: ReactNode };
 
@@ -15,13 +15,13 @@ function wrapper({ children }: WrapperProps) {
 }
 
 describe('useAuth', () => {
-  const response = {token: '1234'};
+  const response = { token: '1234' };
 
   it('handles login success', async () => {
     const api = {
-      login: () => Promise.resolve(response),
+      login: () => { return Promise.resolve(response); },
     };
-    const {result, waitForNextUpdate} = renderHook(() => useAuth(api), {wrapper});
+    const { result, waitForNextUpdate } = renderHook(() => { return useAuth(api); }, { wrapper });
     result.current.login();
     await waitForNextUpdate();
     expect(result.current.authenticated).toEqual(true);
@@ -31,9 +31,9 @@ describe('useAuth', () => {
   it('handles login error', async () => {
     const error = new Error('Could not log in');
     const api = {
-      login: () => Promise.reject(error),
+      login: () => { return Promise.reject(error); },
     };
-    const {result, waitForNextUpdate} = renderHook(() => useAuth(api), {wrapper});
+    const { result, waitForNextUpdate } = renderHook(() => { return useAuth(api); }, { wrapper });
     result.current.login();
     await waitForNextUpdate();
     expect(result.current.authenticated).toEqual(false);
@@ -42,9 +42,9 @@ describe('useAuth', () => {
 
   it('handles logout', async () => {
     const api = {
-      login: () => Promise.resolve(response),
+      login: () => { return Promise.resolve(response); },
     };
-    const {result} = renderHook(() => useAuth(api), {wrapper});
+    const { result } = renderHook(() => { return useAuth(api); }, { wrapper });
     act(() => {
       result.current.logout();
     });
