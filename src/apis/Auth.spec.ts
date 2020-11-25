@@ -1,9 +1,9 @@
 import Auth from './Auth';
 
 describe('Auth', () => {
-  it('authenticates users', async () => {
+  it('handles login', async () => {
     const auth = new Auth();
-    const response = await auth.authenticate();
+    const response = await auth.login();
     expect(response.token).toEqual('1234');
   });
 });

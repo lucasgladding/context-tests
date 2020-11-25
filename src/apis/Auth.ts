@@ -1,5 +1,5 @@
 class Auth {
-  async authenticate() {
+  async login() {
     return { token: '1234' };
   }
 }
