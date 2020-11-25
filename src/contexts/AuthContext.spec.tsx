@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {act, renderHook} from '@testing-library/react-hooks';
 
-import {AuthProvider, useAuth} from './AuthContext';
+import {AuthProvider, useAuthContext} from './AuthContext';
 
 type WrapperProps = { children: ReactNode };
 
@@ -16,7 +16,7 @@ function wrapper({ children }: WrapperProps) {
 describe('AuthContext', () => {
   it('handles login success', () => {
     const token = '1234';
-    const {result} = renderHook(() => useAuth(), {wrapper});
+    const {result} = renderHook(() => useAuthContext(), {wrapper});
     act(() => {
       result.current.dispatch({type: 'login.success', token});
     });
@@ -26,7 +26,7 @@ describe('AuthContext', () => {
 
   it('handles login error', () => {
     const error = 'Authentication failed';
-    const {result} = renderHook(() => useAuth(), {wrapper});
+    const {result} = renderHook(() => useAuthContext(), {wrapper});
     act(() => {
       result.current.dispatch({type: 'login.error', error});
     });

@@ -51,22 +51,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 }
 
-export function useAuthState() {
+export function useAuthStateContext() {
   const context = useContext(AuthStateContext);
   if (context === undefined) {
-    throw new Error('useAuthState must be used inside a provider');
+    throw new Error('useAuthState must be used inside an AuthProvider');
   }
   return context;
 }
 
-export function useAuthDispatch() {
+export function useAuthDispatchContext() {
   const context = useContext(AuthDispatchContext);
   if (context === undefined) {
-    throw new Error('useAuthDispatch must be used inside a provider');
+    throw new Error('useAuthDispatch must be used inside an AuthProvider');
   }
   return context;
 }
 
-export function useAuth() {
-  return {state: useAuthState(), dispatch: useAuthDispatch()};
+export function useAuthContext() {
+  return {state: useAuthStateContext(), dispatch: useAuthDispatchContext()};
 }

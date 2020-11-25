@@ -1,8 +1,8 @@
-import Auth from './Auth';
+import AuthAPI from './AuthAPI';
 
-describe('Auth', () => {
+describe('AuthAPI', () => {
   it('handles login', async () => {
-    const auth = new Auth();
+    const auth = new AuthAPI();
     const response = await auth.login();
     expect(response.token).toEqual('1234');
   });
