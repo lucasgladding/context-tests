@@ -48,7 +48,7 @@ function reduce(state: IAuthState, action: IAuthAction): IAuthState {
   }
 }
 
-export function AuthProvider({ children }: IAuthProvider) {
+export const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
   const initialState = { token: undefined, error: undefined };
   const [state, dispatch] = useReducer(reduce, initialState);
 
@@ -57,7 +57,7 @@ export function AuthProvider({ children }: IAuthProvider) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export function useAuthContext() {
   const context = useContext(AuthContext);

@@ -4,7 +4,7 @@ import AuthAPI from './apis/AuthAPI';
 import { AuthProvider } from './contexts/AuthContext';
 import Login from './components/Login';
 
-function App() {
+const App: React.FC = () => {
   const auth = new AuthAPI();
 
   return (
@@ -12,6 +12,6 @@ function App() {
       <Login api={auth} />
     </AuthProvider>
   );
-}
+};
 
 export default App;

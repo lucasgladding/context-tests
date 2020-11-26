@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import AuthAPI from '../apis/AuthAPI';
 import { useAuth } from '../hooks/useAuth';
 
-interface LoginProps {
+interface ILogin {
   api: AuthAPI;
 }
 
-function Login({ api }: LoginProps) {
+const Login: React.FC<ILogin> = ({ api }) => {
   const { login, authenticated, error } = useAuth(api);
 
   const [username, setUsername] = useState<string>('');
@@ -36,6 +36,6 @@ function Login({ api }: LoginProps) {
       <button onClick={onLogin} type="button">Submit</button>
     </div>
   );
-}
+};
 
 export default Login;
