@@ -1,10 +1,9 @@
 import AuthAPI from '../apis/AuthAPI';
-import { useAuthDispatchContext, useAuthStateContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useAuth(api: AuthAPI) {
-  const state = useAuthStateContext();
-  const dispatch = useAuthDispatchContext();
+  const { state, dispatch } = useAuthContext();
 
   const { token, error } = state;
 

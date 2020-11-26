@@ -2,32 +2,29 @@ import React, {
   createContext, ReactNode, useContext, useReducer,
 } from 'react';
 
-// State
+// Interfaces and types
 
-interface AuthState {
+interface IAuthState {
   token?: string;
   error?: Error;
 }
 
-const AuthStateContext = createContext<AuthState | undefined>(undefined);
-
-// Dispatch
-
-type AuthAction =
+type IAuthAction =
   { type: 'login.success'; token: string; } |
   { type: 'login.error'; error: Error; } |
   { type: 'logout'; }
   ;
 
-type AuthDispatch = (action: AuthAction) => void;
-
-const AuthDispatchContext = createContext<AuthDispatch | undefined>(undefined);
+interface IAuthContext {
+  state: IAuthState;
+  dispatch: (action: IAuthAction) => void;
+}
 
 // Context and hooks
 
-type AuthProviderProps = {children: ReactNode};
+type IAuthProvider = { children: ReactNode; };
 
-function reduce(state: AuthState, action: AuthAction): AuthState {
+function reduce(state: IAuthState, action: IAuthAction): IAuthState {
   switch (action.type) {
     case 'login.success':
       return {
@@ -49,35 +46,23 @@ function reduce(state: AuthState, action: AuthAction): AuthState {
   }
 }
 
-export function AuthProvider({ children }: AuthProviderProps) {
+const AuthContext = createContext<IAuthContext | undefined>(undefined);
+
+export function AuthProvider({ children }: IAuthProvider) {
   const initialState = { token: undefined, error: undefined };
   const [state, dispatch] = useReducer(reduce, initialState);
 
   return (
-    <AuthStateContext.Provider value={state}>
-      <AuthDispatchContext.Provider value={dispatch}>
-        {children}
-      </AuthDispatchContext.Provider>
-    </AuthStateContext.Provider>
+    <AuthContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AuthContext.Provider>
   );
 }
 
-export function useAuthStateContext() {
-  const context = useContext(AuthStateContext);
-  if (context === undefined) {
-    throw new Error('useAuthState must be used inside an AuthProvider');
-  }
-  return context;
-}
-
-export function useAuthDispatchContext() {
-  const context = useContext(AuthDispatchContext);
-  if (context === undefined) {
-    throw new Error('useAuthDispatch must be used inside an AuthProvider');
-  }
-  return context;
-}
-
 export function useAuthContext() {
-  return { state: useAuthStateContext(), dispatch: useAuthDispatchContext() };
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuthContext must be used inside an AuthProvider');
+  }
+  return context;
 }
