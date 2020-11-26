@@ -20,9 +20,11 @@ interface IAuthContext {
   dispatch: (action: IAuthAction) => void;
 }
 
+type IAuthProvider = { children: ReactNode; };
+
 // Context and hooks
 
-type IAuthProvider = { children: ReactNode; };
+const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 function reduce(state: IAuthState, action: IAuthAction): IAuthState {
   switch (action.type) {
@@ -45,8 +47,6 @@ function reduce(state: IAuthState, action: IAuthAction): IAuthState {
       return state;
   }
 }
-
-const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export function AuthProvider({ children }: IAuthProvider) {
   const initialState = { token: undefined, error: undefined };
