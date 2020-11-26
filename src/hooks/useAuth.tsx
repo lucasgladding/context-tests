@@ -6,20 +6,20 @@ export function useAuth(api: AuthAPI) {
   const state = useAuthStateContext();
   const dispatch = useAuthDispatchContext();
 
+  const { token, error } = state;
+
   async function login() {
     try {
       const response = await api.login();
       dispatch({ type: 'login.success', token: response.token });
-    } catch (error) {
-      dispatch({ type: 'login.error', error });
+    } catch (err) {
+      dispatch({ type: 'login.error', error: err });
     }
   }
 
   function logout() {
     dispatch({ type: 'logout' });
   }
-
-  const { token, error } = state;
 
   const authenticated = token !== undefined;
 

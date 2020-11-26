@@ -16,6 +16,7 @@ function wrapper({ children }: WrapperProps) {
 
 describe('useAuth', () => {
   const response = { token: '1234' };
+  const error = new Error('Could not log in');
 
   it('handles login success', async () => {
     const api = {
@@ -29,7 +30,6 @@ describe('useAuth', () => {
   });
 
   it('handles login error', async () => {
-    const error = new Error('Could not log in');
     const api = {
       login: () => { return Promise.reject(error); },
     };
@@ -44,11 +44,15 @@ describe('useAuth', () => {
     const api = {
       login: () => { return Promise.resolve(response); },
     };
-    const { result } = renderHook(() => { return useAuth(api); }, { wrapper });
+    const { result, waitForNextUpdate } = renderHook(() => { return useAuth(api); }, { wrapper });
+
+    result.current.login();
+    await waitForNextUpdate();
+    expect(result.current.authenticated).toEqual(true);
+
     act(() => {
       result.current.logout();
     });
     expect(result.current.authenticated).toEqual(false);
-    expect(result.current.error).toEqual(undefined);
   });
 });
